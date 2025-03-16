@@ -14,39 +14,39 @@ f = 2*x**2*z**2 +y
 
 variable = x
 
-f_y = sp.Poly(f, variable)
-g_y = sp.Poly(g, variable)
+f_v = sp.Poly(f, variable)
+g_v = sp.Poly(g, variable)
 
 
-bm = f_y.LC()
-m = f_y.degree()
+bm = f_v.LC()
+m = f_v.degree()
 
 
-r_in = g_y.copy()
-q_in = sp.S(0)
-r_tem = r_in.copy()
-q_tem = q_in.copy()
+r = g_v.copy()
+q = sp.S(0)
+r_tem = r.copy()
+q_tem = q.copy()
 
 
 t = 0
-while not( r_in == 0) and r_in.degree() >= m:
-    r_in = bm*r_tem- r_tem.LC()*f*variable**(r_tem.degree()-m)
-    q_in = bm*q_tem + r_tem.LC()*variable**(r_tem.degree()-m)
-    r_tem = r_in.copy()
-    q_tem = q_in.copy()
+while not(r == 0) and r.degree() >= m:
+    r = bm * r_tem - r_tem.LC() * f * variable ** (r_tem.degree() - m)
+    q = bm * q_tem + r_tem.LC() * variable ** (r_tem.degree() - m)
+    r_tem = r.copy()
+    q_tem = q.copy()
     t += 1
 
 print(f"Iteration done: {t}")
-print(f"q: {q_in.as_expr()}")
-print(f"r: {r_in.as_expr()}")
+print(f"q: {q.as_expr()}")
+print(f"r: {r.as_expr()}")
 
-product = g_y.copy()
-combination = q_in * f_y + r_in
+product = g_v.copy()
+combination = q * f_v + r
 
 s = 0
 while not(product == combination):
     product = product*bm
     s += 1
 
-print(q_in*f_y+r_in == bm**s*g_y)
+print(q * f_v + r == bm ** s * g_v)
 print(f"q*f + r = ({bm})^{s}*g" if s != 1 else f"q*f + r = ({bm})*g")
