@@ -7,12 +7,12 @@ x, y, z = sp.symbols('x y z')
 # f = (x+1)*y -x
 # g = 2*x*y**2 + x*y - x**2*y + y**3 -2 + 10*x**2 + 3*x**3*y
 # f = x*y**2
-# g = 2*x**3*y**2 - x**2*y + 10*x -2 + 6*x**2*y**2 + 6*y + 4*x**4
-# f = 5*x**2*y - 2*x
-g = x**2*y*z + 3*x**3*y + y**2*z**2 + 3*x**4*z + 7*x**2*z
-f = 2*x**2*z**2 +y
+g = 2*x**3*y**2 - x**2*y + 10*x -2 + 6*x**2*y**2 + 6*y + 4*x**4
+f = 5*x**2*y - 2*x
+# g = x**2*y*z + 3*x**3*y + y**2*z**2 + 3*x**4*z + 7*x**2*z
+# f = 2*x**2*z**2 +y
 
-variable = x
+variable = y
 
 f_v = sp.Poly(f, variable)
 g_v = sp.Poly(g, variable)
@@ -32,6 +32,8 @@ t = 0
 while not(r == 0) and r.degree() >= m:
     r = bm * r_tem - r_tem.LC() * f * variable ** (r_tem.degree() - m)
     q = bm * q_tem + r_tem.LC() * variable ** (r_tem.degree() - m)
+    q = sp.Poly(q, variable)
+    r = sp.Poly(r, variable)
     r_tem = r.copy()
     q_tem = q.copy()
     t += 1
