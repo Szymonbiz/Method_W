@@ -4,6 +4,22 @@ import re
 
 class PseudoDivision:
 
+    """
+    The primary tool in Wu’s Method is a variation on the division algorithm for multivariable polynomials called pseudo
+    division. Let f and g belong to ring k[x1,...,xn,y], where k is a field, with
+    g=a_p*y^p+...+a_0 and f=b_m*y^m+...+b_0, where the a_i, b_j are polynomials in the x1, . . . , xn. Then we have the
+    following result.
+
+        Let f, g be as above and assume that m ≤ p and that f != 0. Then,
+
+            (i) There is an equation
+                                                (b_m)^s*g=q*f+r
+
+        where q, r ∈ k[x1, . . . , xn, y], s ≥ 0, and r is either the zero polynomial or its degree in y is less than m.
+
+            (ii) r is in the ideal〈f, g〉in the ring k[x1, . . . , xn, y].
+    """
+
     def __init__(self, *var):
         variables_unit = []
         for str_ in var:
@@ -34,6 +50,19 @@ class PseudoDivision:
             if xi[0] == "x" and xi[-1] != "x":
                 max_ = int(xi[1]) if int(xi[1]) > max_ else max_
         return max_
+
+    """
+    input: f, g
+    Output: r, q
+    
+    r :=g, q := 0
+    While r != 0 and deg(r,y) ≥ m:
+        r := b_m*r - LC(r,y)*f*y^(deg(r,y) -m)
+        q := b_m*q - LC(r,y)*y^(deg(r,y) -m)
+        
+    where notations deg(f, y) and LC(f, y) to denote the degree of f in the variable y and the leading coefficient of f 
+    as a polynomial in y.
+    """
 
     def divide(self, g: sp.core, f: sp.core, variable, verbose=False):
 
