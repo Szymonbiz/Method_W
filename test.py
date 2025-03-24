@@ -1,4 +1,4 @@
-from pseudo_division import PseudoDivision as Pd
+from pseudo_division import PseudoDivision
 
 f1 = "u1*x1 - u1*u3"
 f2 = "u3*x2 - (u2-u1)*x1"
@@ -9,11 +9,12 @@ g = "2*u2*x4 + 2*u3*x3 - u3*u3 - u2*u2"
 
 F = [f1, f2, f3, f4]
 G = [g]
-D = Pd(*F)
+pd = PseudoDivision(*F)
 
 
 for gi in G:
     R = gi
-    for i in range(D.find_index(D.vars) - 1, -1, -1):
-        R = D.divide_str(R, F[i], f"x{i+1}")["r"]
+    for i in range(pd.find_index(pd.vars) - 1, -1, -1):
+        R = pd.divide_str(R, F[i], f"x{i + 1}")["r"]
     print(R)
+
