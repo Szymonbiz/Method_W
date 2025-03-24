@@ -71,6 +71,7 @@ class PseudoDivision:
 
         for var in self.vars:
             sp.symbols(var)
+
         f_v = sp.Poly(f, variable)
         g_v = sp.Poly(g, variable)
 
@@ -113,7 +114,6 @@ class PseudoDivision:
         variable = sp.symbols(variable)
         PseudoDivision.add_var(self, g)
         PseudoDivision.add_var(self, f)
-
         symbol_dict = {var: sp.symbols(var) for var in self.vars}
 
         f = sp.sympify(f, locals=symbol_dict)
