@@ -6,14 +6,17 @@ x, y, z, u1, u2, u3, x1, x2, x3, x4 = sp.symbols('x y z u1 u2 u3 x1 x2 x3 x4')
 
 class PseudoDivision:
 
-    def __init__(self, var=sp.S(0)):
-        variables: list
-        if type(var) == str:
-            variables = sorted(set(re.findall(r'[a-zA-Z]\d*', var)))
-        else:
-            variables = var.free_symbols
-            variables = [str(i) for i in variables]
-        self.vars: list = variables
+    def __init__(self, *var):
+        variables_unit = []
+        for str_ in var:
+            if type(str_) == str:
+                variables1 = sorted(set(re.findall(r'[a-zA-Z]\d*', str_)))
+            else:
+                variables1 = str_.free_symbols
+                variables1 = [str(i) for i in variables1]
+            variables_unit = variables_unit + [var for var in variables1 if var not in variables_unit]
+
+        self.vars: list = variables_unit
 
     def add_var(self, *string):
 
@@ -25,6 +28,14 @@ class PseudoDivision:
                 variables1 = [str(i) for i in variables1]
             variables_unit = variables1 + [var for var in variables1 if var not in variables1]
             self.vars.extend([var for var in variables_unit if var not in self.vars])
+
+    @staticmethod
+    def find_index(F):
+        max_ = 0
+        for xi in F:
+            if xi[0] == "x" and xi[-1] != "x":
+                max_ = int(xi[1]) if int(xi[1]) > max_ else max_
+        return max_
 
     def divide(self, g: sp.core, f: sp.core, variable=x, verbose=False):
 
