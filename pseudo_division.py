@@ -1,8 +1,6 @@
 import sympy as sp
 import re
 
-x, y, z, u1, u2, u3, x1, x2, x3, x4 = sp.symbols('x y z u1 u2 u3 x1 x2 x3 x4')
-
 
 class PseudoDivision:
 
@@ -37,7 +35,7 @@ class PseudoDivision:
                 max_ = int(xi[1]) if int(xi[1]) > max_ else max_
         return max_
 
-    def divide(self, g: sp.core, f: sp.core, variable=x, verbose=False):
+    def divide(self, g: sp.core, f: sp.core, variable, verbose=False):
 
         PseudoDivision.add_var(g)
         PseudoDivision.add_var(f)
