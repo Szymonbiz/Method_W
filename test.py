@@ -11,10 +11,8 @@ F = [f1, f2, f3, f4]
 G = [g]
 pd = PseudoDivision(*F)
 
-
 for gi in G:
     R = gi
     for i in range(pd.find_index(pd.vars) - 1, -1, -1):
         R = pd.divide_str(R, F[i], f"x{i + 1}", True)["r"]
     print(R)
-
