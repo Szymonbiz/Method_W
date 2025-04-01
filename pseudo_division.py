@@ -111,6 +111,7 @@ class PseudoDivision:
 
     def divide_str(self, g: str, f: str, variable="x", verbose=False) -> dict:
 
+        # Creating ring with given variables.
         variable = sp.symbols(variable)
         PseudoDivision.add_var(self, g)
         PseudoDivision.add_var(self, f)
@@ -130,6 +131,7 @@ class PseudoDivision:
         r_tem = r.copy()
         q_tem = q.copy()
 
+        # Start of the algorithm.
         t = 0
         while not (r == 0) and r.degree() >= m:
             r = bm * r_tem - r_tem.LC() * f * variable ** (r_tem.degree() - m)
@@ -143,6 +145,7 @@ class PseudoDivision:
         product = g_v.copy()
         combination = q * f_v + r
 
+        # Finding power s.
         s = 0
         while not (product == combination):
             product = product * bm
