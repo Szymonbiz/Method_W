@@ -64,7 +64,7 @@ class PseudoDivision:
     as a polynomial in y.
     """
 
-    def divide(self, g: sp.core, f: sp.core, variable, verbose=False):
+    def divide(self, g: sp.core, f: sp.core, variable, verbose=False) -> dict:
 
         PseudoDivision.add_var(g)
         PseudoDivision.add_var(f)
@@ -109,7 +109,7 @@ class PseudoDivision:
 
         return dict1
 
-    def divide_str(self, g: str, f: str, variable="x", verbose=False):
+    def divide_str(self, g: str, f: str, variable="x", verbose=False) -> dict:
 
         variable = sp.symbols(variable)
         PseudoDivision.add_var(self, g)
