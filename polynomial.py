@@ -4,15 +4,9 @@ import re
 
 class Poly:
 
-    def __init__(self, expression):
+    def __init__(self, expression: str):
 
-        if type(expression) == str:
-            variables = sorted(set(re.findall(r'[a-zA-Z]\d*', expression)))
-        else:
-            variables = expression.free_symbols
-            variables = [str(i) for i in variables]
-
-        self.vars: list = variables
+        self.vars: list = sorted(set(re.findall(r'[a-zA-Z]\d*', expression)))
         self.expr: str = expression
         self.Class = Poly.get_Class(self)
         self.LV = Poly.get_LV(self)
@@ -68,3 +62,33 @@ class Poly:
         if other.Class == 0:
             raise Exception
         return self.get_deg_in_v(other.LV) < other.get_deg_in_v(other.LV)
+
+    def __lt__(self, other):
+        """
+        Definition: Given f, g ∈ k[x1, . . . , xn] we say that f < g (g is higher, or of
+        higher rank) if either
+            (i) class(f ) < class(g), or
+            (ii) class(f ) = class(g) and ld(f ) < ld(g).
+        """
+        return (self.Class < other.Class) or \
+            (self.Class == other.Class and self.LD < other.LD)
+
+    def __eq__(self, other):
+        """
+        :param self:
+        :param f, other:
+        :return: f = other
+        """
+        return self.Class == other.Class and self.LD == other.LD
+
+    def __gt__(self, other):
+        return other < self
+
+    def __le__(self, other):
+        return self < other or self == other
+
+    def __ge__(self, other):
+        return self > other or self == other
+
+    def __ne__(self, other):
+        return not self == other
