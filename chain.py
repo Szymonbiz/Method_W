@@ -7,7 +7,7 @@ class Chain:
     def __init__(self, *C):
 
         if not all(isinstance(f, Poly) for f in C):
-            raise TypeError("Given elements must be Poly class")
+            raise TypeError(f"Expected elements of type 'Poly'. Got: {[type(e).__name__ for e in C]}")
 
         self._chain = list(C)
 
@@ -32,9 +32,8 @@ class Chain:
         """
         Definition: Let C = f1, . . . , fr and C1 = g1, . . . , gm be ascending chains. We
         say that C < C1 if either,
-        (i) ∃s ≤ min(r, m) such that fi, gi are of the same rank for i < s and fs < gs,
-        or
-        (ii) m < r and fi and gi are of the same rank for i ≤ m.
+            (i) ∃s ≤ min(r, m) such that fi, gi are of the same rank for i < s and fs < gs, or
+            (ii) m < r and fi and gi are of the same rank for i ≤ m.
         """
 
         # Requirements
