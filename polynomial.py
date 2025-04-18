@@ -54,13 +54,15 @@ class Poly:
         f_v = sp.Poly(self, Poly.get_LV(self))
         return f_v.degree()
 
-    def is_reduced(self, other) -> bool:
+    def is_reduced_to(self, other) -> bool:
 
         """
         Definition: A polynomial g is reduced with respect to f if deg(g, xc) < deg(f, xc), where Class(f) = c > 0.
         """
         if other.Class == 0:
-            raise Exception
+            raise ValueError("Expected a polynomial with class > 0 for comparison.")
+        if not isinstance(other, Poly):
+            raise TypeError(f"Cannot compare object of type {type(other).__name__}. Expected type: 'Poly'.")
         return self.get_deg_in_v(other.LV) < other.get_deg_in_v(other.LV)
 
     def __lt__(self, other):
@@ -70,6 +72,8 @@ class Poly:
             (i) class(f ) < class(g), or
             (ii) class(f ) = class(g) and ld(f ) < ld(g).
         """
+        if not isinstance(other, Poly):
+            raise TypeError(f"Cannot compare object of type {type(other).__name__}. Expected type: 'Poly'.")
         return (self.Class < other.Class) or \
             (self.Class == other.Class and self.LD < other.LD)
 
@@ -79,6 +83,8 @@ class Poly:
         :param f, other:
         :return: f = other
         """
+        if not isinstance(other, Poly):
+            raise TypeError(f"Cannot compare object of type {type(other).__name__}. Expected type: 'Poly'.")
         return self.Class == other.Class and self.LD == other.LD
 
     def __gt__(self, other):
