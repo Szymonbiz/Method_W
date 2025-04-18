@@ -64,51 +64,6 @@ class PseudoDivision:
     as a polynomial in y.
     """
 
-    def divide(self, g: sp.core, f: sp.core, variable, verbose=False) -> dict:
-
-        PseudoDivision.add_var(g)
-        PseudoDivision.add_var(f)
-
-        for var in self.vars:
-            sp.symbols(var)
-
-        f_v = sp.Poly(f, variable)
-        g_v = sp.Poly(g, variable)
-
-        bm = f_v.LC()
-        m = f_v.degree()
-
-        r = g_v.copy()
-        q = sp.S(0)
-        r_tem = r.copy()
-        q_tem = q.copy()
-
-        t = 0
-        while not (r == 0) and r.degree() >= m:
-            r = bm * r_tem - r_tem.LC() * f * variable ** (r_tem.degree() - m)
-            q = bm * q_tem + r_tem.LC() * variable ** (r_tem.degree() - m)
-            q = sp.Poly(q, variable)
-            r = sp.Poly(r, variable)
-            r_tem = r.copy()
-            q_tem = q.copy()
-            t += 1
-
-        product = g_v.copy()
-        combination = q * f_v + r
-
-        s = 0
-        while not (product == combination):
-            product = product * bm
-            s += 1
-
-        if verbose:
-            print("successful division" if q * f_v + r == bm ** s * g_v else "error occurred")
-            print(f"Iteration done: {t}")
-            print(f"q*f + r = ({bm})^{s}*g" if s != 1 else f"q*f + r = ({bm})*g")
-        dict1 = {"q": q, "r": r, "s": s, "bm": bm}
-
-        return dict1
-
     def divide_str(self, g: str, f: str, variable="x", verbose=False) -> dict:
 
         # Creating ring with given variables.
@@ -146,6 +101,51 @@ class PseudoDivision:
         combination = q * f_v + r
 
         # Finding power s.
+        s = 0
+        while not (product == combination):
+            product = product * bm
+            s += 1
+
+        if verbose:
+            print("successful division" if q * f_v + r == bm ** s * g_v else "error occurred")
+            print(f"Iteration done: {t}")
+            print(f"q*f + r = ({bm})^{s}*g" if s != 1 else f"q*f + r = ({bm})*g")
+        dict1 = {"q": q, "r": r, "s": s, "bm": bm}
+
+        return dict1
+
+    def divide(self, g: sp.core, f: sp.core, variable, verbose=False) -> dict:
+
+        PseudoDivision.add_var(g)
+        PseudoDivision.add_var(f)
+
+        for var in self.vars:
+            sp.symbols(var)
+
+        f_v = sp.Poly(f, variable)
+        g_v = sp.Poly(g, variable)
+
+        bm = f_v.LC()
+        m = f_v.degree()
+
+        r = g_v.copy()
+        q = sp.S(0)
+        r_tem = r.copy()
+        q_tem = q.copy()
+
+        t = 0
+        while not (r == 0) and r.degree() >= m:
+            r = bm * r_tem - r_tem.LC() * f * variable ** (r_tem.degree() - m)
+            q = bm * q_tem + r_tem.LC() * variable ** (r_tem.degree() - m)
+            q = sp.Poly(q, variable)
+            r = sp.Poly(r, variable)
+            r_tem = r.copy()
+            q_tem = q.copy()
+            t += 1
+
+        product = g_v.copy()
+        combination = q * f_v + r
+
         s = 0
         while not (product == combination):
             product = product * bm
