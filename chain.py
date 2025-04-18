@@ -63,9 +63,9 @@ class Chain:
         return bool1 or bool2
 
 
-S = Chain(*[Poly("x1**2"), Poly("y**3")])
-print(S.chain)
-print(S.len)
-print(S)
-print("\n\n")
-print("[x1**2, y**3]")
+# S = Chain(*[Poly("x1**2"), Poly("y**3")])
+# print(S.chain)
+# print(S.len)
+# print(S)
+# print("\n\n")
+# print("[x1**2, y**3]")
