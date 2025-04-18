@@ -18,12 +18,10 @@ for gi in G:
     R = gi
     for i in range(pd.find_index(pd.vars) - 1, -1, -1):
         print(pd.find_index(pd.vars))
-        print(i)
         R = pd.divide_str(R, F[i], f"x{i + 1}", True)["r"]
     print(R)
 
 F_p = [Poly(i) for i in F]
 S = Chain(*F_p)
 print(S)
-print(Poly(g).vars)
 print(pd1.prem(Poly(g), S))

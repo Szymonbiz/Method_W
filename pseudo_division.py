@@ -123,8 +123,8 @@ class PseudoDivision:
 
         i = PseudoDivision.find_index(self.vars)
         R = g.expr
-        while i >= 0:
-            R = PseudoDivision.divide_str(self, R, S.chain[i-1].expr, f"x{i + 1}", verbose=False)["r"]
+        while i > 0:
+            R = PseudoDivision.divide_str(self, R, S.chain[i-1].expr, f"x{i}", verbose=False)["r"]
             i -= 1
         return R
 
