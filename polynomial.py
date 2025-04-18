@@ -13,6 +13,9 @@ class Poly:
         self.LCx = Poly.get_LCx(self)
         self.LD = Poly.get_LD(self)
 
+    def __str__(self):
+        return self.expr
+
     def get_Class(self) -> int:
 
         """
@@ -35,9 +38,9 @@ class Poly:
         """
         Definition: We call leading coefficient of f, denoted LV(f), as a polynomial in xc, where c = Class(f).
         """
-        var = sp.Symbol(Poly.get_LV(self))
-        f_poly = sp.sympify(self.expr, locals={Poly.get_LV(self): var})
-        f_v = sp.Poly(f_poly, var)
+        LV = sp.Symbol(self.LV)
+        f_poly = sp.sympify(self.expr, locals={Poly.get_LV(self): LV})
+        f_v = sp.Poly(f_poly, LV)
         return f_v.LC()
 
     def get_deg_in_v(self, variable: str) -> int:
@@ -51,7 +54,10 @@ class Poly:
         """
         Definition: We call leading degree of f, denoted LD(f), as a polynomial in xc, where c = Class(f).
         """
-        f_v = sp.Poly(self, Poly.get_LV(self))
+
+        LV = sp.Symbol(self.LV)
+        f_poly = sp.sympify(self.expr, locals={Poly.get_LV(self): LV})
+        f_v = sp.Poly(f_poly, LV)
         return f_v.degree()
 
     def is_reduced_to(self, other) -> bool:
@@ -59,10 +65,10 @@ class Poly:
         """
         Definition: A polynomial g is reduced with respect to f if deg(g, xc) < deg(f, xc), where Class(f) = c > 0.
         """
-        if other.Class == 0:
-            raise ValueError("Expected a polynomial with class > 0 for comparison.")
         if not isinstance(other, Poly):
             raise TypeError(f"Cannot compare object of type {type(other).__name__}. Expected type: 'Poly'.")
+        if other.Class == 0:
+            raise ValueError("Expected a polynomial with class > 0 for comparison.")
         return self.get_deg_in_v(other.LV) < other.get_deg_in_v(other.LV)
 
     def __lt__(self, other):

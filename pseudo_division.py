@@ -1,5 +1,7 @@
 import sympy as sp
 import re
+from polynomial import Poly
+from chain import Chain
 
 
 class PseudoDivision:
@@ -113,6 +115,18 @@ class PseudoDivision:
         dict1 = {"q": q, "r": r, "s": s, "bm": bm}
 
         return dict1
+
+    def prem(self, g: Poly, S: Chain):
+        matrix = [f.vars for f in S.chain]
+        domain = [var for vector in matrix for var in vector]
+        self.add_var(*domain)
+
+        i = PseudoDivision.find_index(self.vars)
+        R = g.expr
+        while i >= 0:
+            R = PseudoDivision.divide_str(self, R, S.chain[i-1].expr, f"x{i + 1}", verbose=False)["r"]
+            i -= 1
+        return R
 
     def divide(self, g: sp.core, f: sp.core, variable, verbose=False) -> dict:
 

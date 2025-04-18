@@ -11,6 +11,10 @@ class Chain:
 
         self._chain = list(C)
 
+    def __str__(self):
+        inner = "\033[1m,\033[0m".join([f"\x1B[3m {str(f)} \x1B[0m" for f in self.chain])
+        return "\033[1m(\033[0m{}\033[1m)\033[0m".format(inner)
+
     @property
     def chain(self):
         return self._chain
@@ -37,10 +41,10 @@ class Chain:
         """
 
         # Requirements
-        if not (self.is_seq_ascending and other.is_seq_ascending):
-            raise TypeError("Expected ascending chains of polynomials.")
         if not isinstance(other, Chain):
             raise TypeError(f"Cannot compare object of type {type(other).__name__}. Expected type: 'Chain'.")
+        if not (self.is_seq_ascending and other.is_seq_ascending):
+            raise TypeError("Expected ascending chains of polynomials.")
 
         # Case (i)
         if any([self.chain[s] < other.chain[s] and
@@ -57,3 +61,11 @@ class Chain:
             bool1 = False
 
         return bool1 or bool2
+
+
+S = Chain(*[Poly("x1**2"), Poly("y**3")])
+print(S.chain)
+print(S.len)
+print(S)
+print("\n\n")
+print("[x1**2, y**3]")
