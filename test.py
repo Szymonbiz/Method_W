@@ -21,7 +21,6 @@ for gi in G:
         R = pd.divide_str(R, F[i], f"x{i + 1}", True)["r"]
     print(R)
 
-F_p = [Poly(i) for i in F]
-S = Chain(*F_p)
+S = Chain(*[Poly(i) for i in F])
 print(S)
 print(pd1.prem(Poly(g), S))
