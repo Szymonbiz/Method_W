@@ -31,6 +31,20 @@ class Chain:
         return self.is_seq_quasi and \
             all([self.chain[j].is_reduced_to(self.chain[i]) for i in range(self.len) for j in range(i + 1, self.len)])
 
+    def min(self) -> Poly:
+
+        """
+        This method is used to find the polynomial of minimal rank in the chain (rank is compared using the < relation).
+        """
+
+        if self.len == 0:
+            raise TypeError("chain must by nonempty.")
+
+        minimal = self.chain[0]
+        for j in range(self.len - 1):
+            minimal = self.chain[j + 1] if self.chain[j + 1] < minimal else minimal
+        return minimal
+
     def __lt__(self, other):
 
         """
@@ -61,6 +75,35 @@ class Chain:
             bool1 = False
 
         return bool1 or bool2
+
+    """
+    Definition: Let S be a nonempty set of polynomials in k[x1, . . . , xn]. A minimal
+    ascending chain among all ascending chains formed by polynomials in S is called a
+    characteristic set.
+    """
+
+    @classmethod
+    def characteristic(cls, S):
+
+        if not isinstance(S, cls):
+            raise TypeError(f"Cannot compare object of type {type(S).__name__}. Expected type: 'Chain'.")
+        if S.len == 0:
+            raise TypeError("chain must by nonempty.")
+
+        Si = cls(*S.chain.copy())
+        fi = Si.min()
+        result_chain = [fi]
+        if fi.Class == 0:
+            return cls(fi)
+
+        while True:
+            Si = cls(*[g for g in Si.chain if g.is_reduced_to(fi)])
+            if Si.len == 0:
+                break
+            fi = Si.min()
+            result_chain.append(fi)
+
+        return cls(*result_chain)
 
 
 # S = Chain(*[Poly("x1**2"), Poly("y**3")])
